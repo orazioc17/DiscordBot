@@ -124,13 +124,5 @@ async def on_message(message):
 			await message.channel.send("Responding is off.")
 
 
-#Function to welcome new members
-@client.event
-async def on_member_join(self, member):
-  guild = member.guild
-  if guild.system_channel is not None:
-    to_send = 'Welcome {0.mention} to {1.name}!\n I am BotXinxero, the most "boxinxero" bot that you will find\nType $help to know how to use me'.format(member, guild)
-    await guild.system_channel.send(to_send)
-
 keep_alive()
 client.run(os.getenv('TOKEN'))
