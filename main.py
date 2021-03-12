@@ -19,6 +19,15 @@ starter_encouragements = [
 	"You are a great person!"
 ]
 
+commands = [
+	"$new: Nueva frase inspiradora en la base de datos",
+	"$inspire: Frase inspiradora de un autor",
+	"$responding: con on y off puedes activar y desactivar los mensajes inspiradores auto-enviados",
+	"$help: Mensaje de ayuda para usar el bot",
+	"$del: Borra un mensaje inspirador de la base de datos",
+	"$list: Muestra una lista de las frases inspiradoras en la base de datos"
+]
+
 if "responding" not in db.keys():
 	db["responding"] = True
 
@@ -64,9 +73,16 @@ async def on_message(message):
 	msg = message.content
 
 	#Doing this, this is like a command the bot will read and do something
-	if message.content.startswith('$hello'):
+	if message.content.startswith("$hello"):
 		#So, everytime someone writes "$hello", the bot will answer "Hello!"
-		await message.channel.send('Hello!')
+		await message.channel.send("Hello!")
+
+	if msg.startswith("$help"):
+		await message.channel.send("Hi, I am botXinxero, if you want to new the commands to use me, type $commands")
+
+	if msg.startswith("$commands"):
+		for command in commands:
+			await message.channel.send(command)
 
 	if message.content.startswith('$inspire'):
 		quote = get_quote()
@@ -106,7 +122,15 @@ async def on_message(message):
 		else:
 			db["responding"] = False
 			await message.channel.send("Responding is off.")
-	
+
+
+#Function to welcome new members
+@client.event
+async def on_member_join(self, member):
+  guild = member.guild
+  if guild.system_channel is not None:
+    to_send = 'Welcome {0.mention} to {1.name}!\n I am BotXinxero, the most "boxinxero" bot that you will find\nType $help to know how to use me'.format(member, guild)
+    await guild.system_channel.send(to_send)
 
 keep_alive()
 client.run(os.getenv('TOKEN'))

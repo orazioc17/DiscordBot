@@ -8,3 +8,5 @@ This is a discord bot written in python for learning purposes, it will get impro
 * The bot can return encouragement messages whe someone asks for it, and the users can add new encouraging quotes
 * As the users can add messages, they can delete messages too
 * The response system can be switched on or off
+* The bot now welcome new members
+
