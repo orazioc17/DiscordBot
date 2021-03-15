@@ -8,8 +8,11 @@ from replit import db
 from keep_alive import keep_alive
 
 
+intents = discord.Intents.default()
+intents.members = True
+
 #This is the connection to discord
-client = discord.Client()
+client = discord.Client(intents=intents)
 
 sad_words = ["sad","unhappy","depressed","depressing","miserable"]
 
@@ -27,6 +30,11 @@ commands = [
 	"$del: Borra un mensaje inspirador de la base de datos",
 	"$list: Muestra una lista de las frases inspiradoras en la base de datos"
 ]
+
+new_user_message = """
+Hi, welcome to this beautiful server
+You can type $help to know how to use this bot
+"""
 
 if "responding" not in db.keys():
 	db["responding"] = True
@@ -122,6 +130,18 @@ async def on_message(message):
 		else:
 			db["responding"] = False
 			await message.channel.send("Responding is off.")
+
+@client.event
+async def on_member_join(member):
+	try:
+		await client.send_message(member, new_user_message)
+	except:
+		embed = discord.Embed(
+			title = 'Welcome ' + member.name+'!',
+			description="We're so glad you're here!\nType $help to get more information about me",
+      color=discord.Color.green()
+		)
+		await member.send(embed=embed)
 
 
 keep_alive()
